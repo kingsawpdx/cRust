@@ -22,13 +22,13 @@ impl Player {
       }
    }
 
-   pub fn display_data(&self) {
+  /* pub fn display_data(&self) {
          println!("Name: {}", self.name);
          println!("Company name: {}", self.company_name);
          println!("Total sandwiches made: {}", self.total_sandwiches_made);
          println!("Sandwiches available: {}", self.available_sandwiches);
          println!("Sandwiches per second: {}", self.sandwiches_per_second);
-   }
+   }*/
 
    pub fn increment_sandwiches(&mut self) {
       self.total_sandwiches_made += 1;
