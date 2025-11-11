@@ -20,13 +20,13 @@ use ui::draw_ui;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Welcome to cRust! A sandwich making idle game.");
-    println!("To begin, please enter your name");
+    println!("To begin, please enter your name:");
 
     let mut name = String::new();
     io::stdin().read_line(&mut name)?;
     let name = name.trim().to_string();
 
-    println!("Now enter the name of your restaraunt");
+    println!("Now enter the name of your restaurant:");
     let mut company = String::new();
     io::stdin().read_line(&mut company)?;
     let company = company.trim().to_string();
