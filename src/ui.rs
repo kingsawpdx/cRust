@@ -29,14 +29,15 @@ pub fn draw_ui(frame: &mut Frame, app: &App) {
     // ----------------------- Left Top --------------------------------
     
     let text = vec![
+        Line::from(format!("Employee of the month: {}", app.current_player.name)),
         Line::from(format!("Available Sandwiches: {}", app.current_player.available_sandwiches)),
         Line::from(format!("Total Sandwiches Made: {}", app.current_player.total_sandwiches_made)),
         Line::from(format!("Sandwiches per Second: {}", app.current_player.sandwiches_per_second)),
     ];
     
     let bottom_text = vec![
-        Line::from(format!("1) Press the spacebar to make a sandwich.")),
-        Line::from(format!("2) Press (q) to quit.")),
+        Line::from("1) Press the spacebar to make a sandwich."),
+        Line::from("2) Press (q) to quit."),
     ];
 
     frame.render_widget(
