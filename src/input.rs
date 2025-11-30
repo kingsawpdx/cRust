@@ -8,8 +8,8 @@ pub fn handle_input(app: &mut App) -> std::io::Result<()> {
                 KeyCode::Char('q') => app.quit(),
                 KeyCode::Char(' ') => app.increment(),
 
-                KeyCode::Up => app.move_selection_up(3),
-                KeyCode::Down => app.move_selection_down(),
+                KeyCode::Up => app.move_selection_up(),
+                KeyCode::Down => app.move_selection_down(3),
 
                 _ => {}
             }

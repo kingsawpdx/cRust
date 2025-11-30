@@ -1,7 +1,7 @@
 use ratatui::{
     layout::{Constraint, Direction, Layout},
-    style::{Style, Stylize},
-    widgets::{Block, Borders, Paragraph, List, ListDirection},
+    style::{Style, Stylize, Color},
+    widgets::{Block, Borders, Paragraph, List, ListItem, Wrap},
     text::{Line},
     Frame,
 };
@@ -47,16 +47,34 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     // ----------------------- Right --------------------------------
 
 
-    //let mut state = ListState::default();
-    let items = ["Sandwich Artist", "cRust-way", "cRust-azon"];
+    let store_items = vec![
+        ("Sandwich Artist", "10"),
+        ("cRust-way", "20"),
+        ("cRust-azon", "30"),
+    ];
+
+    let row_width = 30;
+
+    let items: Vec<ListItem> = store_items
+    .iter()
+    .map(|(name, value)| {
+        let line = dotted(name, value, row_width);
+        ListItem::new(line)
+    })
+    .collect();
+
 
     let list = List::new(items)
         .block(Block::bordered().title("Store"))
         .style(Style::new().white())
-        .highlight_style(Style::new().italic())
-        .highlight_symbol(">>")
-        .repeat_highlight_symbol(true)
-        .direction(ListDirection::BottomToTop);
+        .highlight_style(
+            Style::default()
+                .bg(Color::Blue)
+                .fg(Color::Black)
+                .bold()
+        )
+        .highlight_symbol(">> ")
+        .repeat_highlight_symbol(true);
 
     frame.render_widget(
         Paragraph::new(text)
@@ -71,7 +89,8 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
             .block(Block::new()
                    .borders(Borders::ALL)
                    .title("How to play:")
-            ),
+            )
+            .wrap(Wrap { trim: true }),
         left_layout[1]);
 
     frame.render_widget(
@@ -83,6 +102,11 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         outer_layout[1]);
 
     frame.render_stateful_widget(list, outer_layout[2], &mut app.list_state);
+
+    fn dotted(label: &str, value: &str, width: usize) -> String {
+        let dots = ".".repeat(width.saturating_sub(label.len() + value.len()));
+        format!("{label}{dots}{value}")
+    }
 
 /*
     frame.render_widget(

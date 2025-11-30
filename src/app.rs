@@ -30,14 +30,14 @@ impl App {
         self.running = false;
     }
 
-    pub fn move_selection_up(&mut self, max: usize) {
+    pub fn move_selection_down(&mut self, max: usize) {
         let i = self.list_state.selected().unwrap_or(0);
         if i + 1 < max {
             self.list_state.select(Some(i + 1));
         }
     }
 
-    pub fn move_selection_down(&mut self) {
+    pub fn move_selection_up(&mut self) {
         let i = self.list_state.selected().unwrap_or(0);
         self.list_state.select(Some(i.saturating_sub(1)));
     }
