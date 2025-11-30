@@ -31,13 +31,6 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
 
     // ----------------------- Left --------------------------------
     
-    let text = vec![
-        Line::from(format!("Employee of the month: {}", app.current_player.name)),
-        Line::from(format!("Available Sandwiches: {}", app.current_player.available_sandwiches)),
-        Line::from(format!("Total Sandwiches Made: {}", app.current_player.total_sandwiches_made)),
-        Line::from(format!("Sandwiches per Second: {}", app.current_player.sandwiches_per_second)),
-    ];
-    
     let bottom_text = vec![
         Line::from("1) Press the spacebar to make a sandwich."),
         Line::from("2) Press (q) to quit."),
@@ -53,6 +46,12 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         ("cRust-azon", "30"),
     ];
 
+    let info_items = vec![
+        ("Available Sandwiches", app.current_player.available_sandwiches),
+        ("Total Sandwiches Made", app.current_player.total_sandwiches_made),
+        ("Sandwiches per Second", app.current_player.sandwiches_per_second),
+    ];
+
     let row_width = 30;
 
     let items: Vec<ListItem> = store_items
@@ -63,6 +62,17 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     })
     .collect();
 
+    let mut info_text: Vec<Line> = info_items
+    .iter()
+    .map(|(name, value)| {
+        let line = dotted(name, &value.to_string(), 40);
+            Line::from(line)
+    })
+    .collect();
+
+
+    info_text.insert(0, Line::from(format!("")));
+    info_text.insert(0, Line::from(format!("Employee of the month: {}", app.current_player.name)));
 
     let list = List::new(items)
         .block(Block::bordered().title("Store"))
@@ -77,7 +87,8 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         .repeat_highlight_symbol(true);
 
     frame.render_widget(
-        Paragraph::new(text)
+        //Paragraph::new(text)
+        Paragraph::new(info_text)
             .block(Block::new()
                    .borders(Borders::ALL)
                    .title(app.current_player.company_name.clone())
@@ -108,44 +119,4 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         format!("{label}{dots}{value}")
     }
 
-/*
-    frame.render_widget(
-        Paragraph::new("Right")
-            .block(Block::new()
-                   .borders(Borders::ALL)
-                   .title("Store")
-            ),
-        outer_layout[2]);
-
-*/
-
-
-/*
-    let block = Block::default()
-        .title(app.current_player.company_name.clone())
-        .borders(Borders::ALL);
-
-    let text = vec![
-        Line::from(format!("Available Sandwiches: {}", app.current_player.available_sandwiches)),
-        Line::from(format!("Total Sandwiches Made: {}", app.current_player.total_sandwiches_made)),
-        Line::from(format!("Sandwiches per Second: {}", app.current_player.sandwiches_per_second)),
-    ];
-
-    let paragraph = Paragraph::new(text).block(block);
-    frame.render_widget(paragraph, left_layout[0]);
-
-    // ----------------------- Left Bottom --------------------------------
-
-    let bottom_block = Block::default()
-        .title("How to play:")
-        .borders(Borders::ALL);
-
-    let bottom_text = vec![
-        Line::from(format!("1) Press the spacebar to make a sandwich.")),
-        Line::from(format!("2) Press (q) to quit.")),
-    ];
-
-    let bottom_paragraph = Paragraph::new(bottom_text).block(bottom_block);
-    frame.render_widget(bottom_paragraph, left_layout[1]);
-  */      
 }
