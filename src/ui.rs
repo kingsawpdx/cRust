@@ -1,12 +1,15 @@
 use ratatui::{
     layout::{Constraint, Direction, Layout},
-    widgets::{Block, Borders, Paragraph},
+    style::{Style, Stylize},
+    widgets::{Block, Borders, Paragraph, List, ListDirection},
     text::{Line},
     Frame,
 };
 use crate::app::App;
 
-pub fn draw_ui(frame: &mut Frame, app: &App) {
+pub fn draw_ui(frame: &mut Frame, app: &mut App) {
+
+    // ----------------------- Layouts --------------------------------
 
     let outer_layout = Layout::default()
          .direction(Direction::Horizontal)
@@ -26,7 +29,7 @@ pub fn draw_ui(frame: &mut Frame, app: &App) {
         ])
         .split(outer_layout[0]);
 
-    // ----------------------- Left Top --------------------------------
+    // ----------------------- Left --------------------------------
     
     let text = vec![
         Line::from(format!("Employee of the month: {}", app.current_player.name)),
@@ -39,6 +42,21 @@ pub fn draw_ui(frame: &mut Frame, app: &App) {
         Line::from("1) Press the spacebar to make a sandwich."),
         Line::from("2) Press (q) to quit."),
     ];
+
+
+    // ----------------------- Right --------------------------------
+
+
+    //let mut state = ListState::default();
+    let items = ["Sandwich Artist", "cRust-way", "cRust-azon"];
+
+    let list = List::new(items)
+        .block(Block::bordered().title("Store"))
+        .style(Style::new().white())
+        .highlight_style(Style::new().italic())
+        .highlight_symbol(">>")
+        .repeat_highlight_symbol(true)
+        .direction(ListDirection::BottomToTop);
 
     frame.render_widget(
         Paragraph::new(text)
@@ -64,6 +82,9 @@ pub fn draw_ui(frame: &mut Frame, app: &App) {
             ),
         outer_layout[1]);
 
+    frame.render_stateful_widget(list, outer_layout[2], &mut app.list_state);
+
+/*
     frame.render_widget(
         Paragraph::new("Right")
             .block(Block::new()
@@ -71,6 +92,10 @@ pub fn draw_ui(frame: &mut Frame, app: &App) {
                    .title("Store")
             ),
         outer_layout[2]);
+
+*/
+
+
 /*
     let block = Block::default()
         .title(app.current_player.company_name.clone())

@@ -42,7 +42,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut app = App::new(new_player);
 
     while app.running {
-        terminal.draw(|f| draw_ui(f, &app))?;
+        terminal.draw(|f| draw_ui(f, &mut app))?;
         handle_input(&mut app)?;
     }
 
