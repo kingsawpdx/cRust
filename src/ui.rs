@@ -24,8 +24,8 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     let left_layout = Layout::default()
         .direction(Direction::Vertical)
         .constraints(vec![
-            Constraint::Percentage(80),
-            Constraint::Percentage(20),
+            Constraint::Percentage(70),
+            Constraint::Percentage(30),
         ])
         .split(outer_layout[0]);
 
@@ -33,7 +33,10 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     
     let bottom_text = vec![
         Line::from("1) Press the spacebar to make a sandwich."),
-        Line::from("2) Press (q) to quit."),
+        Line::from("2) Use the up and down arrow keys to navigate the store."),
+        Line::from("3) Once you have enough sandwiches, press (p) to purchase the selected item in the store."),
+        Line::from("4) Try to accomplish the achievement at the bottom of the screen."),
+        Line::from("5) Press (q) to quit."),
     ];
 
 

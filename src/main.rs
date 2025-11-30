@@ -19,7 +19,7 @@ use ui::draw_ui;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    println!("Welcome to cRust! A sandwich making idle game.");
+    println!("\nWelcome to cRust! A sandwich making idle game.");
     println!("To begin, please enter your name:");
 
     let mut name = String::new();
