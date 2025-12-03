@@ -3,9 +3,13 @@ pub struct Player {
    pub name: String,
    pub company_name: String,
 
-   pub total_sandwiches_made: u8,
-   pub available_sandwiches: u8,
-   pub sandwiches_per_second: u8,
+   pub total_sandwiches_made: u16,
+   pub available_sandwiches: u16,
+   pub sandwiches_per_second: u16,
+
+   pub sandwich_artists: u16,
+   pub crustway: u16,
+   pub crustazon: u16,
 
 }
 
@@ -18,20 +22,29 @@ impl Player {
         
         total_sandwiches_made: 0,
         available_sandwiches: 0,
-        sandwiches_per_second: 0
+        sandwiches_per_second: 0,
+
+        sandwich_artists: 0,
+        crustway: 0,
+        crustazon: 0,
       }
    }
-
-  /* pub fn display_data(&self) {
-         println!("Name: {}", self.name);
-         println!("Company name: {}", self.company_name);
-         println!("Total sandwiches made: {}", self.total_sandwiches_made);
-         println!("Sandwiches available: {}", self.available_sandwiches);
-         println!("Sandwiches per second: {}", self.sandwiches_per_second);
-   }*/
 
    pub fn increment_sandwiches(&mut self) {
       self.total_sandwiches_made += 1;
       self.available_sandwiches += 1;
    }
+
+   pub fn verify_funds(&mut self, price: u16, item: u16){
+      if self.available_sandwiches >= price {
+         self.available_sandwiches = self.available_sandwiches - price;
+         match item {
+            0 => { self.sandwich_artists = self.sandwich_artists + 1 },
+            1 => { self.crustway = self.crustway + 1 },
+            2 => { self.crustazon = self.crustazon + 1 },
+            _ => { }
+         }
+      }
+   }
+
 }

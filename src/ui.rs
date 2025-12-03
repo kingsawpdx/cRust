@@ -45,14 +45,17 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
 
     let store_items = vec![
         ("Sandwich Artist", "10"),
-        ("cRust-way", "20"),
-        ("cRust-azon", "30"),
+        ("cRust-way", "100"),
+        ("cRust-azon", "200"),
     ];
 
     let info_items = vec![
         ("Available Sandwiches", app.current_player.available_sandwiches),
         ("Total Sandwiches Made", app.current_player.total_sandwiches_made),
         ("Sandwiches per Second", app.current_player.sandwiches_per_second),
+        ("Sandwich Artists", app.current_player.sandwich_artists),
+        ("cRust-way's", app.current_player.crustway),
+        ("cRust-azon's", app.current_player.crustazon),
     ];
 
     let row_width = 30;
@@ -76,6 +79,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
 
     info_text.insert(0, Line::from(format!("")));
     info_text.insert(0, Line::from(format!("Employee of the month: {}", app.current_player.name)));
+    info_text.insert(5, Line::from(format!("")));
 
     let list = List::new(items)
         .block(Block::bordered().title("Store"))

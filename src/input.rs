@@ -7,6 +7,7 @@ pub fn handle_input(app: &mut App) -> std::io::Result<()> {
             match key.code {
                 KeyCode::Char('q') => app.quit(),
                 KeyCode::Char(' ') => app.increment(),
+                KeyCode::Char('p') => app.purchase(),
 
                 KeyCode::Up => app.move_selection_up(),
                 KeyCode::Down => app.move_selection_down(3),

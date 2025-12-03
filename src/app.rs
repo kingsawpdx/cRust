@@ -42,4 +42,30 @@ impl App {
         self.list_state.select(Some(i.saturating_sub(1)));
     }
 
+    /*pub fn purchase(&mut self){
+        let i = self.list_state.selected().unwrap_or(0);
+        
+        match i {
+            0 => self.current_player.verify_funds(10, i.try_into().unwrap()),
+            1 => self.current_player.verify_funds(100, i.try_into().unwrap()),
+            2 => self.current_player.verify_funds(200, i.try_into().unwrap()),
+            _ => { }
+
+        }
+
+    }*/
+
+    pub fn purchase(&mut self) {
+        let i = self.list_state.selected().unwrap_or(0);
+
+        let price: u16 = match i {
+            0 => 10,
+            1 => 100,
+            2 => 200,
+            _ => return,
+        };
+
+        self.current_player.verify_funds(price, i as u16);
+    }
+
 }
