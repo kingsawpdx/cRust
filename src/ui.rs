@@ -34,17 +34,13 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         Line::from("5) Press (q) to quit."),
     ];
 
-    let store_items = vec![
-        ("Sandwich Artist", app.current_player.get_upgrade_cost(0)),
-        ("cRust-way", app.current_player.get_upgrade_cost(1)),
-        ("cRust-azon", app.current_player.get_upgrade_cost(2)),
-    ];
+      let store_items = [("Sandwich Artist", app.current_player.get_upgrade_cost(0)),
+         ("cRust-way", app.current_player.get_upgrade_cost(1)),
+         ("cRust-azon", app.current_player.get_upgrade_cost(2))];
 
-    let info_items = vec![
-        ("Available Sandwiches", app.current_player.available_sandwiches),
-        ("Sandwiches per Second", app.current_player.sandwiches_per_second),
-        ("Total Sandwiches Made", app.current_player.total_sandwiches_made),
-    ];
+    let info_items = [("Available Sandwiches", app.current_player.available_sandwiches),
+         ("Sandwiches per Second", app.current_player.sandwiches_per_second),
+         ("Total Sandwiches Made", app.current_player.total_sandwiches_made)];
 
     let automation_info = vec![
         (
@@ -73,7 +69,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     for (name, owned, per_item, symbol) in automation_info {
         let total_production = owned * per_item;
         
-        automation_text.push(Line::from(format!("{}", name)).bold());
+        automation_text.push(Line::from(name.to_string()).bold());
         automation_text.push(Line::from(format!("  Owned: {}", owned)));
         automation_text.push(Line::from(format!("  Each generates: {} sandwich{}/sec", 
             per_item, 
@@ -117,12 +113,12 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     .collect();
 
     let progress_percent = (app.current_player.total_sandwiches_made as f64 / u16::MAX as f64) * 100.0;
-    info_text.push(Line::from(format!("")));
+    info_text.push(Line::from(""));
     info_text.push(Line::from(format!("Victory Progress: {:.2}%", progress_percent)));
 
-    info_text.insert(0, Line::from(format!("")));
+    info_text.insert(0, Line::from(""));
     info_text.insert(0, Line::from(format!("Employee of the month: {}", app.current_player.name)));
-    info_text.insert(4, Line::from(format!("")));
+    info_text.insert(4, Line::from(""));
 
     let list = List::new(items)
         .block(Block::bordered().title("Store"))

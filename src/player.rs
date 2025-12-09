@@ -41,9 +41,7 @@ impl Player {
    }
 
    pub fn calculate_sandwiches_per_second(&mut self) -> u16 {
-      let sps = self.sandwich_artists * 1
-          + self.crustway * 5
-          + self.crustazon * 10;
+      let sps = self.sandwich_artists + self.crustway * 5 + self.crustazon * 10;
 
       self.sandwiches_per_second = sps;
 
@@ -65,11 +63,11 @@ impl Player {
       let price = self.get_upgrade_cost(item);
 
       if self.available_sandwiches >= price {
-            self.available_sandwiches = self.available_sandwiches - price;
+            self.available_sandwiches -= price;
             match item {
-                0 => { self.sandwich_artists = self.sandwich_artists + 1 },
-                1 => { self.crustway = self.crustway + 1 },
-                2 => { self.crustazon = self.crustazon + 1 },
+                0 => { self.sandwich_artists += 1 },
+                1 => { self.crustway += 1 },
+                2 => { self.crustazon += 1 },
                 _ => { }
             }
             true
