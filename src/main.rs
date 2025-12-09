@@ -20,6 +20,7 @@ use ui::draw_ui;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("\nWelcome to cRust! A sandwich making idle game.");
+    println!("   *Note: This game works best when played in full screen.\n");
     println!("To begin, please enter your name:");
 
     let mut name = String::new();
@@ -44,6 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     while app.running {
         terminal.draw(|f| draw_ui(f, &mut app))?;
         handle_input(&mut app)?;
+        app.auto_increment();
     }
 
     disable_raw_mode()?;
@@ -53,6 +55,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         DisableMouseCapture
     )?;
     terminal.show_cursor()?;
+
+    if app.victory {
+        println!("\n *************** CONGRATULATIONS! ***************");
+        println!("You've reached the maximum sandwich production!");
+        println!("Total Sandwiches Made: {}", app.current_player.total_sandwiches_made);
+        println!("\n{} and {} have conquered the sandwich industry!", 
+                 app.current_player.name, 
+                 app.current_player.company_name);
+        println!("\nThank you for playing cRust!");
+    } else {
+        println!("\nThanks for playing!");
+    }
 
     Ok(())
 }

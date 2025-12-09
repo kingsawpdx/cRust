@@ -35,16 +35,51 @@ impl Player {
       self.available_sandwiches += 1;
    }
 
-   pub fn verify_funds(&mut self, price: u16, item: u16){
+   pub fn add_sandwiches(&mut self, amount: u16) {
+      self.total_sandwiches_made = self.total_sandwiches_made.saturating_add(amount);
+      self.available_sandwiches = self.available_sandwiches.saturating_add(amount);
+   }
+
+   pub fn calculate_sandwiches_per_second(&mut self) -> u16 {
+      let sps = self.sandwich_artists * 1
+          + self.crustway * 5
+          + self.crustazon * 10;
+
+      self.sandwiches_per_second = sps;
+
+      sps
+   }
+
+   pub fn get_upgrade_cost(&self, item:u16) -> u16 {
+      let (base_cost, owned) = match item {
+         0 => (10, self.sandwich_artists),
+         1 => (200, self.crustway),
+         2 => (1000, self.crustazon),
+         _ => return 0, 
+      };
+      let multiplier = 1.15_f64.powi(owned as i32);
+      (base_cost as f64 * multiplier).ceil() as u16
+   }
+
+   pub fn verify_funds(&mut self, item: u16) -> bool {
+      let price = self.get_upgrade_cost(item);
+
       if self.available_sandwiches >= price {
-         self.available_sandwiches = self.available_sandwiches - price;
-         match item {
-            0 => { self.sandwich_artists = self.sandwich_artists + 1 },
-            1 => { self.crustway = self.crustway + 1 },
-            2 => { self.crustazon = self.crustazon + 1 },
-            _ => { }
-         }
-      }
+            self.available_sandwiches = self.available_sandwiches - price;
+            match item {
+                0 => { self.sandwich_artists = self.sandwich_artists + 1 },
+                1 => { self.crustway = self.crustway + 1 },
+                2 => { self.crustazon = self.crustazon + 1 },
+                _ => { }
+            }
+            true
+        } else {
+            false
+        }
+   }
+
+   pub fn has_won(&self) -> bool {
+      self.total_sandwiches_made == u16::MAX
    }
 
 }

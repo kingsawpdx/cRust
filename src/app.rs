@@ -1,12 +1,16 @@
 use crate::player::Player;
-
 use ratatui::widgets::ListState;
+
+use std::time::Instant;
 
 pub struct App {
     pub running: bool,
     pub current_player: Player,
 
     pub list_state:ListState,
+    pub last_auto_increment: Instant,
+
+    pub victory: bool,
 }
 
 impl App {
@@ -19,11 +23,34 @@ impl App {
             current_player: new_player,
 
             list_state: state,
+            last_auto_increment: Instant::now(),
+            
+            victory: false,
         }
     }
 
     pub fn increment(&mut self) {
 	self.current_player.increment_sandwiches();
+        self.check_victory(); 
+    }
+
+    pub fn auto_increment(&mut self) {
+        let now = Instant::now();
+        let elapsed = now.duration_since(self.last_auto_increment);
+
+        if elapsed.as_secs() >= 1 {
+            let sandwiches_to_add = self.current_player.calculate_sandwiches_per_second();
+            self.current_player.add_sandwiches(sandwiches_to_add);
+            self.last_auto_increment = now;
+            self.check_victory();
+        }
+    }
+
+    fn check_victory(&mut self) {
+        if self.current_player.has_won() {
+            self.victory = true;
+            self.running = false;
+        }
     }
 
     pub fn quit(&mut self) {
@@ -42,30 +69,9 @@ impl App {
         self.list_state.select(Some(i.saturating_sub(1)));
     }
 
-    /*pub fn purchase(&mut self){
-        let i = self.list_state.selected().unwrap_or(0);
-        
-        match i {
-            0 => self.current_player.verify_funds(10, i.try_into().unwrap()),
-            1 => self.current_player.verify_funds(100, i.try_into().unwrap()),
-            2 => self.current_player.verify_funds(200, i.try_into().unwrap()),
-            _ => { }
-
-        }
-
-    }*/
-
     pub fn purchase(&mut self) {
         let i = self.list_state.selected().unwrap_or(0);
-
-        let price: u16 = match i {
-            0 => 10,
-            1 => 100,
-            2 => 200,
-            _ => return,
-        };
-
-        self.current_player.verify_funds(price, i as u16);
+        self.current_player.verify_funds(i as u16);
     }
 
 }
