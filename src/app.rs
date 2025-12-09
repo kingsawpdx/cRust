@@ -7,7 +7,7 @@ pub struct App {
     pub running: bool,
     pub current_player: Player,
 
-    pub list_state:ListState,
+    pub list_state: ListState,
     pub last_auto_increment: Instant,
 
     pub victory: bool,
@@ -15,7 +15,6 @@ pub struct App {
 
 impl App {
     pub fn new(new_player: Player) -> Self {
-
         let mut state = ListState::default();
         state.select(Some(0));
         Self {
@@ -24,14 +23,14 @@ impl App {
 
             list_state: state,
             last_auto_increment: Instant::now(),
-            
+
             victory: false,
         }
     }
 
     pub fn increment(&mut self) {
-	self.current_player.increment_sandwiches();
-        self.check_victory(); 
+        self.current_player.increment_sandwiches();
+        self.check_victory();
     }
 
     pub fn auto_increment(&mut self) {
@@ -73,5 +72,4 @@ impl App {
         let i = self.list_state.selected().unwrap_or(0);
         self.current_player.verify_funds(i as u16);
     }
-
 }

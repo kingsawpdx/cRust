@@ -1,24 +1,23 @@
 mod app;
-mod ui;
 mod input;
 mod player;
+mod ui;
 use crate::player::Player;
 
-use std::io;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+    terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
+use std::io;
 
-use ratatui::backend::CrosstermBackend;
-use ratatui::Terminal;
 use app::App;
 use input::handle_input;
+use ratatui::Terminal;
+use ratatui::backend::CrosstermBackend;
 use ui::draw_ui;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-
     println!("\nWelcome to cRust! A sandwich making idle game.");
     println!("   *Note: This game works best when played in full screen.\n");
     println!("To begin, please enter your name:");
@@ -59,10 +58,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if app.victory {
         println!("\n *************** CONGRATULATIONS! ***************");
         println!("You've reached the maximum sandwich production!");
-        println!("Total Sandwiches Made: {}", app.current_player.total_sandwiches_made);
-        println!("\n{} and {} have conquered the sandwich industry!", 
-                 app.current_player.name, 
-                 app.current_player.company_name);
+        println!(
+            "Total Sandwiches Made: {}",
+            app.current_player.total_sandwiches_made
+        );
+        println!(
+            "\n{} and {} have conquered the sandwich industry!",
+            app.current_player.name, app.current_player.company_name
+        );
         println!("\nThank you for playing cRust!");
     } else {
         println!("\nThanks for playing!");
