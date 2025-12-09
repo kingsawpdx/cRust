@@ -12,16 +12,23 @@ A player class which manages all data for the user including:
 - Restaurant name.
 - Current sandwiches available.
 - Total sandwiches made.
+- Sandwiches being generated per second.
 
 A market that will allow for upgrades and automation. These upgrades will include:
 - Sandwich artists
 - cRust-Way sandwich shops
 - cRust-azon distribution centers
-- Possibly more if time allows.
 
-A list of goals of achievements to work towards. These goals will include
-- Make 1,000,000 sandwiches
-- Produce x amount of sandwiches per second
-- Have x amount of sandwich shops/distribution centers.
+The project will have a victory condition:
+- When the players total sandwiches made reaches 65,535 sandwiches the game will end.
 
-## Developer guide coming soon...
+## Lessons Learned:
+
+Ratatui: Ratatui was fun to work with but provided a few challenges. 
+- Getting used to the general stucture of ratatui took me a little bit but now is very intuitive.
+- Managing state with the list component was very similar experience to adapting to ratatui in general. At first it provided some challenges but after seeing examples in the documentation, it now feels second nature. 
+
+Rust: This was a great way to gain some confidence in rust!
+Generally there weren't many obstacles but here are some interesting things I encountered.
+- This was the first application where I ran into size limitations. I originally used u8's for most values but had to change to u16 when I ran into crashing due to hitting the maximum value.
+- Implementing the auto incrementer was a little tough to wrap my head around at first but turned out very well.
