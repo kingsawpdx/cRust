@@ -7,7 +7,9 @@ use ratatui::{
     widgets::{Block, Borders, List, ListItem, Paragraph, Wrap},
 };
 
+/// Function used to create UI.
 pub fn draw_ui(frame: &mut Frame, app: &mut App) {
+
     let outer_layout = Layout::default()
         .direction(Direction::Horizontal)
         .constraints(vec![
@@ -22,22 +24,23 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         .constraints(vec![Constraint::Percentage(70), Constraint::Percentage(30)])
         .split(outer_layout[0]);
 
+    // Text in how to play.
     let bottom_text = vec![
         Line::from("1) Press the spacebar to make a sandwich."),
         Line::from("2) Use the up and down arrow keys to navigate the store."),
-        Line::from(
-            "3) Once you have enough sandwiches, press (p) to purchase the selected item in the store.",
-        ),
+        Line::from("3) Once you have enough sandwiches, press (p) to purchase the selected item in the store."),
         Line::from("4) The game is over when your total sandwiches is >= 65,535."),
         Line::from("5) Press (q) to quit."),
     ];
 
+    // Store text and price
     let store_items = [
         ("Sandwich Artist", app.current_player.get_upgrade_cost(0)),
         ("cRust-way", app.current_player.get_upgrade_cost(1)),
         ("cRust-azon", app.current_player.get_upgrade_cost(2)),
     ];
 
+    // Info on player stats.
     let info_items = [
         (
             "Available Sandwiches",
@@ -53,6 +56,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         ),
     ];
 
+    // Info on player purchases and what they generate.
     let automation_info = vec![
         (
             "Sandwich Artist",
@@ -133,6 +137,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
     );
     info_text.insert(4, Line::from(""));
 
+    // Manages list component used to manage store.
     let list = List::new(items)
         .block(Block::bordered().title("Store"))
         .style(Style::new().white())
@@ -140,6 +145,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         .highlight_symbol(">> ")
         .repeat_highlight_symbol(true);
 
+    // Renders left top pane.
     frame.render_widget(
         Paragraph::new(info_text).block(
             Block::new()
@@ -149,6 +155,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         left_layout[0],
     );
 
+    // Renders left bottom pane.
     frame.render_widget(
         Paragraph::new(bottom_text)
             .block(Block::new().borders(Borders::ALL).title("How to play:"))
@@ -156,6 +163,7 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         left_layout[1],
     );
 
+    // Renders middle pane.
     frame.render_widget(
         Paragraph::new(automation_text)
             .block(Block::new().borders(Borders::ALL).title("Automation"))
@@ -163,8 +171,10 @@ pub fn draw_ui(frame: &mut Frame, app: &mut App) {
         outer_layout[1],
     );
 
+    // Renders right pane.
     frame.render_stateful_widget(list, outer_layout[2], &mut app.list_state);
 
+    // Used to create dots between text and prices.
     fn dotted(label: &str, value: &str, width: usize) -> String {
         let dots = ".".repeat(width.saturating_sub(label.len() + value.len()));
         format!("{label}{dots}{value}")

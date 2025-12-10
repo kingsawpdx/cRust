@@ -17,6 +17,7 @@ use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
 use ui::draw_ui;
 
+/// Primary function running application.
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\nWelcome to cRust! A sandwich making idle game.");
     println!("   *Note: This game works best when played in full screen.\n");

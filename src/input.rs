@@ -1,6 +1,7 @@
 use crate::app::App;
 use crossterm::event::{self, Event, KeyCode};
 
+/// Function used to moniter user input.
 pub fn handle_input(app: &mut App) -> std::io::Result<()> {
     if event::poll(std::time::Duration::from_millis(100))?
         && let Event::Key(key) = event::read()?
